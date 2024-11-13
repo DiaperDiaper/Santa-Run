@@ -23,6 +23,22 @@
         <div class="screen" id="startScreen">
             <h1>Santa's Gift Run</h1>
             <button id="startButton">Play Game</button>
+            <div class="game-settings">
+                <div class="setting-group">
+                    <label for="santaSpeed">Santa Speed:</label>
+                    <input type="range" id="santaSpeed" min="3" max="10" value="5">
+                    <span id="speedValue">5</span>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <!-- Game Over Screen -->

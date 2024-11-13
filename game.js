@@ -26,6 +26,30 @@ class SantaGame {
         
         // Setup screens
         this.setupScreens();
+        
+        // Add after other initializations
+        this.difficultySettings = {
+            easy: {
+                giftInterval: 1500,
+                obstacleInterval: 2000,
+                obstacleSpeed: 0.003,
+                giftSpeed: 0.002
+            },
+            medium: {
+                giftInterval: 1000,
+                obstacleInterval: 1500,
+                obstacleSpeed: 0.004,
+                giftSpeed: 0.003
+            },
+            hard: {
+                giftInterval: 800,
+                obstacleInterval: 1200,
+                obstacleSpeed: 0.005,
+                giftSpeed: 0.004
+            }
+        };
+        
+        this.setupGameSettings();
     }
 
     resizeCanvas() {
@@ -105,6 +129,10 @@ class SantaGame {
         this.score = 0;
         this.updateScores();
         
+        // Get current difficulty settings
+        this.currentDifficulty = this.difficultySelect.value;
+        const diffSettings = this.difficultySettings[this.currentDifficulty];
+        
         // Hide screens
         document.getElementById('startScreen').style.display = 'none';
         document.getElementById('gameOverScreen').style.display = 'none';
@@ -112,9 +140,9 @@ class SantaGame {
         // Reset game objects
         this.initializeGame();
         
-        // Start spawning
-        this.giftInterval = setInterval(() => this.spawnGift(), 1000);
-        this.obstacleInterval = setInterval(() => this.spawnObstacle(), 1500);
+        // Start spawning with difficulty settings
+        this.giftInterval = setInterval(() => this.spawnGift(), diffSettings.giftInterval);
+        this.obstacleInterval = setInterval(() => this.spawnObstacle(), diffSettings.obstacleInterval);
         
         // Start game loop
         this.gameLoop();
@@ -123,26 +151,28 @@ class SantaGame {
     spawnGift() {
         if (!this.gameRunning) return;
         
+        const diffSettings = this.difficultySettings[this.currentDifficulty];
         const size = Math.min(this.canvas.width * 0.05, 30);
         this.gifts.push({
             x: Math.random() * (this.canvas.width - size),
             y: -size,
             width: size,
             height: size,
-            speed: this.canvas.height * 0.003
+            speed: this.canvas.height * diffSettings.giftSpeed
         });
     }
 
     spawnObstacle() {
         if (!this.gameRunning) return;
         
+        const diffSettings = this.difficultySettings[this.currentDifficulty];
         const size = Math.min(this.canvas.width * 0.05, 30);
         this.obstacles.push({
             x: Math.random() * (this.canvas.width - size),
             y: -size,
             width: size,
             height: size,
-            speed: this.canvas.height * 0.004
+            speed: this.canvas.height * diffSettings.obstacleSpeed
         });
     }
 
@@ -159,10 +189,11 @@ class SantaGame {
     update() {
         // Update Santa
         if (this.keys.ArrowLeft) {
-            this.santa.x = Math.max(0, this.santa.x - this.santa.speed);
+            this.santa.x = Math.max(0, this.santa.x - (this.santa.speed * this.santaSpeedMultiplier));
         }
         if (this.keys.ArrowRight) {
-            this.santa.x = Math.min(this.canvas.width - this.santa.width, this.santa.x + this.santa.speed);
+            this.santa.x = Math.min(this.canvas.width - this.santa.width, 
+                this.santa.x + (this.santa.speed * this.santaSpeedMultiplier));
         }
 
         // Update gifts
@@ -260,6 +291,24 @@ class SantaGame {
             this.draw();
             requestAnimationFrame(() => this.gameLoop());
         }
+    }
+
+    setupGameSettings() {
+        // Santa speed control
+        const speedSlider = document.getElementById('santaSpeed');
+        const speedValue = document.getElementById('speedValue');
+        
+        speedSlider.addEventListener('input', (e) => {
+            speedValue.textContent = e.target.value;
+            this.santaSpeedMultiplier = parseInt(e.target.value) / 5;
+        });
+        
+        // Default speed multiplier
+        this.santaSpeedMultiplier = 1;
+        
+        // Difficulty selector
+        this.difficultySelect = document.getElementById('difficulty');
+        this.currentDifficulty = this.difficultySelect.value;
     }
 }
 

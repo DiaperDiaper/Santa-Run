@@ -111,3 +111,34 @@ button:hover {
         font-size: 1rem;
     }
 }
+
+.game-settings {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    width: 80%;
+    max-width: 300px;
+}
+
+.setting-group {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.setting-group label {
+    min-width: 100px;
+}
+
+.setting-group input[type="range"] {
+    flex: 1;
+}
+
+.setting-group select {
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+    border: none;
+}
