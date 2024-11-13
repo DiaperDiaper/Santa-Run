@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa's Gift Run</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Game UI -->
+        <div class="game-ui">
+            <div class="score-container">
+                <div class="score">Score: <span id="currentScore">0</span></div>
+                <div class="high-score">Best: <span id="highScore">0</span></div>
+            </div>
+        </div>
+
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Start Screen -->
+        <div class="screen" id="startScreen">
+            <h1>Santa's Gift Run</h1>
+            <button id="startButton">Play Game</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="screen" id="gameOverScreen" style="display: none;">
+            <h2>Game Over!</h2>
+            <p class="final-score">Score: <span id="finalScore">0</span></p>
+            <p class="high-score">Best: <span id="finalHighScore">0</span></p>
+            <button id="restartButton">Play Again</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
